@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101e35">
+<title>Collection Enterprises</title>
+<style>
+:root{--navy:#101e35;--navy2:#172b49;--blue:#2876d2;--blue2:#eaf3ff;--ink:#18263a;--muted:#687990;--line:#e0e7f0;--bg:#f4f7fb;--white:#fff;--green:#16865b;--red:#c34c4c;--gold:#a87916;--shadow:0 8px 24px #142b4510}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
+.topbar{background:linear-gradient(115deg,var(--navy),#1a3e68);color:#fff;padding:18px max(16px,calc((100% - 1240px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}.brandmark{height:44px;width:44px;border-radius:14px;background:#ffffff1b;display:grid;place-items:center;font-size:25px}.brand h1{font-size:22px;letter-spacing:.1px;margin:0}.brand p{margin:2px 0 0;color:#c8d7e9;font-size:12px}.wallet{border:1px solid #ffffff32;background:#ffffff12;padding:9px 14px;border-radius:13px;min-width:145px}.wallet small{display:block;color:#cbd9e8;font-size:11px}.wallet strong{font-size:20px}
+main{max-width:1240px;margin:0 auto;padding:18px 16px 34px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:17px}.stat{background:white;border:1px solid var(--line);border-radius:14px;padding:13px 15px;box-shadow:var(--shadow)}.stat small{color:var(--muted);display:block;font-size:12px}.stat strong{font-size:21px;display:block;margin-top:4px}.stat .hint{font-size:11px;color:var(--muted);margin-top:2px}
+.nav{display:flex;gap:7px;overflow:auto;padding:4px 0 13px;margin-bottom:5px}.nav button{border:1px solid var(--line);background:white;color:#45566d;border-radius:11px;padding:10px 14px;white-space:nowrap;font-weight:700}.nav button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.page{display:none}.page.active{display:block}.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:8px 0 14px}.section-head h2{font-size:22px;margin:0}.section-head p{color:var(--muted);font-size:13px;margin:3px 0 0}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.controls input,.controls select,.field{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:10px;padding:10px 12px;min-height:42px}.controls input{flex:1;min-width:190px}
+.btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:10px;padding:9px 12px;font-weight:700}.btn.primary{background:var(--blue);border-color:var(--blue);color:white}.btn.dark{background:var(--navy);border-color:var(--navy);color:white}.btn.soft{background:var(--blue2);border-color:#d4e6ff;color:#19589e}.btn.danger{color:var(--red);border-color:#efcccc;background:#fff8f8}
+.notice{border:1px solid #e9d9a8;background:#fff9e9;border-radius:12px;padding:11px 13px;color:#715818;font-size:13px;margin:0 0 15px}.notice strong{color:#62470b}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:13px}.product{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;min-width:0}.product-art{height:174px;background:linear-gradient(145deg,#f2f6fb,#e9f0f8);display:grid;place-items:center;position:relative;padding:10px}.product-art img{height:100%;width:100%;object-fit:contain}.art-placeholder{width:88px;height:116px;border-radius:9px;border:1px solid #d4dfeb;background:linear-gradient(145deg,#fff,#dfeaf7);display:grid;place-items:center;font-size:37px;box-shadow:0 6px 14px #19365318}.tag{position:absolute;left:10px;top:10px;background:#ffffffdf;border:1px solid #e1e8f1;color:#56667b;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;border-radius:30px;padding:4px 8px}
+.product-body{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}.product h3{font-size:15px;line-height:1.25;margin:0}.sub{font-size:11px;color:var(--muted)}.price-line{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:3px}.price{font-size:20px;font-weight:850;letter-spacing:-.4px}.unpriced{font-size:14px;color:#8794a5;font-weight:700}.source{font-size:10px;color:var(--muted);min-height:14px}.product-actions{display:flex;gap:7px;margin-top:auto;padding-top:7px}.product-actions button{flex:1;padding:9px 7px}
+.empty{background:white;border:1px dashed #cbd7e5;border-radius:14px;text-align:center;padding:35px 18px;color:var(--muted)}
+.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}.panel h3{font-size:17px;margin:0 0 8px}.panel p{font-size:13px;color:var(--muted);margin:5px 0 12px}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.row.between{justify-content:space-between}.field{width:100%;max-width:450px}.field-label{display:block;font-size:12px;font-weight:750;color:#506078;margin:10px 0 5px}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}th,td{text-align:left;padding:10px 9px;border-bottom:1px solid var(--line);vertical-align:middle}th{color:#66778c;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.muted{color:var(--muted)}.tiny{font-size:11px}.status{display:inline-flex;gap:5px;align-items:center;border-radius:30px;padding:4px 8px;font-size:10px;font-weight:800;background:#f0f3f7;color:#67778b}.status.good{background:#e7f6ef;color:#14764e}.status.warn{background:#fff5df;color:#936712}
+.filebox{border:1px dashed #bdccdc;background:#f8fbff;padding:13px;border-radius:12px;margin:8px 0}.filebox input{max-width:100%}
+footer{max-width:1240px;margin:auto;padding:0 16px 28px;color:#7a8798;font-size:11px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:10;background:#13243c;color:white;padding:11px 16px;border-radius:11px;box-shadow:0 8px 30px #101e3544;max-width:calc(100% - 24px);font-size:13px;display:none}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.topbar{padding:14px 16px}.product-art{height:155px}}
+@media(max-width:410px){.stats{gap:8px}.stat{padding:10px}.stat strong{font-size:18px}.brand h1{font-size:19px}.wallet{min-width:125px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.product-art{height:132px}.product-body{padding:9px}.price{font-size:17px}.product h3{font-size:13px}.product-actions{flex-direction:column}}
+
+.lookup-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.lookup-row:last-child{border-bottom:0}
+.lookup-meta{font-size:11px;color:var(--muted);margin-top:3px}
+.lookup-editor{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;padding:10px 0}
+.lookup-editor label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}
+.lookup-editor input{min-width:0;width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--text)}
+@media(max-width:520px){.lookup-editor{grid-template-columns:1fr 1fr}.lookup-editor button{grid-column:1/-1}}
+
+.home-hero{background:linear-gradient(120deg,#101e35,#193d66 72%,#245b8d);color:#fff;border-radius:18px;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:18px;margin:8px 0 16px;min-height:220px}.home-hero h2{font-size:clamp(24px,4vw,34px);margin:8px 0}.home-hero p{color:#d4e2f2;max-width:580px;margin:0 0 18px}.home-art{font-size:100px;filter:drop-shadow(0 10px 16px #0004)}.home-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.home-shortcuts .panel{margin:0}.home-shortcuts p{font-size:12px;color:var(--muted);min-height:38px}.home-hero .btn{font-weight:800}.tm-hero{background:linear-gradient(120deg,#101e35,#193d66 72%,#245b8d);color:#fff;border-radius:16px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.tm-hero h2{font-size:25px;margin:5px 0}.tm-hero p{color:#d4e2f2;margin:0;max-width:650px}.tm-eyebrow{font-size:10px;letter-spacing:1.5px;font-weight:800;color:#9fc7f4}
+.tm-hero-actions{display:flex;gap:8px;flex-wrap:wrap}.btn.light{background:#fff;color:#17365a;border-color:#d9e6f5;text-decoration:none;display:inline-flex;align-items:center}
+.tm-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.tm-stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
+.tm-stat span,.tm-stat small{display:block;color:var(--muted);font-size:12px}.tm-stat strong{display:block;font-size:23px;margin:4px 0;color:#17365a}
+.tm-product-result{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.tm-product-result:first-child{margin-top:8px}.tm-product-result strong{display:block}.tm-product-result .lookup-meta{color:var(--muted);font-size:12px}
+.tm-market-value{font-weight:800;color:#17365a;white-space:nowrap}.tm-price-link{font-size:11px;color:#2876d2;text-decoration:none;white-space:nowrap}.tm-price-link:hover{text-decoration:underline}
+@media(max-width:650px){.home-shortcuts{grid-template-columns:1fr}.home-hero{padding:20px}.home-art{font-size:68px}}
+@media(max-width:560px){.tm-stats{grid-template-columns:1fr 1fr}.tm-stat:last-child{grid-column:1/-1}.tm-hero{padding:17px}.tm-hero h2{font-size:22px}.tm-product-result{align-items:flex-start;flex-wrap:wrap}}
+
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="brandmark">🏪</div><div><h1>Collection Enterprises</h1><p>Build your collection. Run your marketplace.</p></div></div>
+  <div class="wallet"><small>AVAILABLE BALANCE</small><strong id="balance">$1,000.00</strong></div>
+</header>
+<main>
+  <section class="stats">
+    <div class="stat"><small>Cash balance</small><strong id="statCash">$1,000.00</strong><div class="hint">Ready to spend</div></div>
+    <div class="stat"><small>Items owned</small><strong id="statItems">0</strong><div class="hint">Across your collection</div></div>
+    <div class="stat"><small>Collection value</small><strong id="statValue">—</strong><div class="hint">Only items with imported prices</div></div>
+    <div class="stat"><small>Orders completed</small><strong id="statOrders">0</strong><div class="hint">Your purchase and sale history</div></div>
+  </section>
+
+  <nav class="nav" id="nav">
+    <button class="active" data-page="home">Home</button>
+    <button data-page="market">Marketplace</button>
+    <button data-page="collection">My Collection</button>
+    <button data-page="orders">Order History</button>
+    <button data-page="prices">Price Center</button>
+    <button data-page="save">Save & Settings</button>
+  </nav>
+
+  <section class="page active" id="page-home">
+    <div class="home-hero">
+      <div><div class="tm-eyebrow">YOUR COLLECTION. YOUR MARKET.</div><h2>Welcome to Collection Enterprises</h2><p>Build your Pokémon collection, browse products, and manage your in-game marketplace.</p>
+      <button class="btn light" id="enterMarketplaceBtn">Enter Marketplace ↗</button></div>
+      <div class="home-art" aria-hidden="true">🃏</div>
+    </div>
+    <div class="home-shortcuts"><div class="panel"><strong>Marketplace</strong><p>Open the shop when you're ready. Products and market prices load when you enter.</p><button class="btn primary" data-open-page="market">Open marketplace</button></div><div class="panel"><strong>My Collection</strong><p>See the cards and sealed products you've purchased.</p><button class="btn" data-open-page="collection">View collection</button></div><div class="panel"><strong>Price Center</strong><p>Check the connection and review imported price data.</p><button class="btn" data-open-page="prices">View Price Center</button></div></div>
+  </section>
+
+  <section class="page" id="page-market">
+    <div class="section-head"><div><h2>Marketplace</h2><p>Browse cards, sealed products, and collecting supplies.</p></div><span class="status" id="catalogCount">0 products</span></div>
+    <div class="controls">
+      <input id="search" placeholder="Search name, set, or product…" autocomplete="off">
+      <select id="category"><option value="all">All categories</option><option value="card">Pokémon cards</option><option value="sealed">Sealed products</option><option value="accessory">Supplies</option></select>
+      <select id="sort"><option value="featured">Featured</option><option value="name">Name A–Z</option><option value="priceAsc">Price: low to high</option><option value="priceDesc">Price: high to low</option><option value="owned">Owned first</option></select>
+    </div>
+    <div class="notice"><strong>Verified-price mode:</strong> prices come from TickerMint's daily market feed. Products without a verified price cannot be bought or sold. Prices are market estimates, not live listings.</div>
+    <div class="panel">
+      <div class="row between"><div><h3>Find products to add</h3><p class="muted tiny">Search Pokémon cards and sealed products, then add a result to your marketplace.</p></div><span class="status">TickerMint catalog</span></div>
+      <div class="row"><input class="field" id="catalogSearch" placeholder="Search Charizard, Evolving Skies booster box…" autocomplete="off"><button class="btn primary" id="catalogSearchBtn">Search catalog</button></div>
+      <div id="catalogSearchStatus" class="muted tiny" aria-live="polite">Search the TickerMint catalog to find a product and its latest market price.</div>
+      <div id="catalogSearchResults"></div>
+    </div>
+    <div id="marketLoading" class="notice" role="status">Open marketplace to load products and check saved market prices.</div>
+    <div id="catalog" class="grid"></div>
+  </section>
+
+  <section class="page" id="page-collection">
+    <div class="section-head"><div><h2>My Collection</h2><p>Everything you own, with current imported values.</p></div></div>
+    <div class="panel"><div class="row between"><div><strong id="collectionSummary">0 items owned</strong><div class="muted tiny">Selling an item uses its latest imported market price.</div></div><span class="status" id="collectionValueLabel">Value unavailable</span></div></div>
+    <div id="collectionContent"></div>
+  </section>
+
+  <section class="page" id="page-orders">
+    <div class="section-head"><div><h2>Order History</h2><p>A record of every in-game purchase and sale.</p></div></div>
+    <div id="ordersContent"></div>
+  </section>
+
+  <section class="page" id="page-prices">
+    <div class="section-head">
+      <div><h2>Price Center</h2><p>Daily Pokémon card and sealed-product market data.</p></div>
+      <span class="status" id="tmConnection">TickerMint · Not checked</span>
+    </div>
+    <div class="tm-hero">
+      <div><div class="tm-eyebrow">COLLECTION ENTERPRISES MARKET DATA</div>
+        <h2>Pokémon Price Center</h2>
+        <p>Search Pokémon cards and sealed products, check daily TCGplayer market prices, and keep your marketplace up to date.</p>
+      </div>
+      <div class="tm-hero-actions">
+        <button class="btn light" id="testConnectionBtn">Test live connection</button>
+        <button class="btn light" id="syncBtn">↻ Refresh prices</button>
+        <a class="btn light" href="https://tickermint.cards/" target="_blank" rel="noopener">TickerMint ↗</a>
+      </div>
+    </div>
+    <div class="tm-stats">
+      <div class="tm-stat"><span>Tracked products</span><strong id="tmTracked">0</strong><small>Cards and sealed products</small></div>
+      <div class="tm-stat"><span>Prices available</span><strong id="tmPriced">0</strong><small>Verified market prices</small></div>
+      <div class="tm-stat"><span>Last checked</span><strong id="tmLastRefresh">—</strong><small>Updated when game opens</small></div>
+    </div>
+    <div class="panel">
+      <div class="row between"><div><h3>Market prices</h3><p class="muted tiny">Latest available TCGplayer market price in USD.</p></div><span class="status" id="priceCount">0 records</span></div>
+      <div class="row"><input class="field" id="priceSearch" placeholder="Filter tracked products"><select id="tmPriceFilter" class="field"><option value="all">All products</option><option value="card">Cards</option><option value="sealed">Sealed products</option><option value="accessory">Accessories</option></select></div>
+      <div class="table-wrap" id="priceTable"></div>
+    </div>
+    <div class="panel">
+      <h3>Connection and refresh</h3>
+      <div class="notice"><strong>Important:</strong> TickerMint blocks direct browser requests from other websites (CORS). This download includes a Node.js server that requests prices and passes them to the game. An optional TickerMint key can be configured as a server environment variable; it is never placed in browser code.</div>
+      <p class="muted tiny" style="margin-top:10px">Prices update daily at the source. Collection Enterprises checks again when opened, with a 20-hour game refresh window and a one-hour server cache to conserve the API allowance. A browser page cannot refresh while it is closed. Accessories are not priced by this Pokémon feed.</p>
+      <p class="muted tiny">TickerMint's free access is for personal, non-commercial use and requires a visible source link. Do not use this free integration in a commercial or ad-supported app.</p>
+      <div id="apiStatus" class="muted tiny" aria-live="polite">Waiting for the Collection Enterprises price server…</div>
+      <div class="row"><button class="btn" id="disconnectBtn">Clear cached TickerMint prices</button><button class="btn" id="exportPricesBtn">Export price data</button><button class="btn" id="clearPricesBtn">Clear imported prices</button></div>
+    </div>
+    <div class="panel">
+      <h3>Manual price import</h3>
+      <p class="muted tiny">Optional CSV columns: <code>id</code> or <code>name</code>, <code>price</code> or <code>market</code>, and optionally <code>set,source,updated</code>.</p>
+      <div class="filebox"><input type="file" id="csvFile" accept=".csv,text/csv"> <button class="btn primary" id="importBtn">Import CSV</button></div>
+      <div id="importStatus" class="muted tiny" aria-live="polite"></div>
+    </div>
+    <div class="panel">
+      <h3>Manual TCGplayer reference lookup</h3>
+      <p class="muted tiny">Opens TCGplayer's public search page so you can check an item yourself. It does not scrape TCGplayer.</p>
+      <div class="row"><input class="field" id="tcgReferenceSearch" placeholder="Find an item by name, set, or number"><button class="btn" id="priceSearchClear">Clear</button></div>
+      <div id="tcgLookupList"></div>
+      <div id="tcgPriceStatus" class="muted tiny" aria-live="polite"></div>
+    </div>
+    <div class="notice">Price source: <a href="https://tickermint.cards/developers" target="_blank" rel="noopener">TickerMint API and documentation</a>. Prices are daily market data, not live listings.</div>
+  </section>
+
+  <section class="page" id="page-save">
+    <div class="section-head"><div><h2>Save & Settings</h2><p>Keep your progress safe and move it between devices.</p></div></div>
+    <div class="panel"><h3>Game save</h3><p>Your balance, collection, orders, and imported price data save automatically in this browser. Browser storage does not sync between accounts or devices, so export a backup when you need to move your game.</p>
+      <div class="row"><button class="btn primary" id="exportSaveBtn">Export game save</button><label class="btn">Import game save<input id="saveFile" type="file" accept=".json,application/json" hidden></label><button class="btn danger" id="resetBtn">Reset game</button></div><div id="saveStatus" class="muted tiny" style="margin-top:10px"></div></div>
+    <div class="panel"><h3>Game rules</h3><ul class="muted tiny"><li>Starting balance: $1,000.00.</li><li>Buy and sell prices are taken exactly from the current imported price record.</li><li>No market price means no purchase or sale.</li><li>TCGplayer website reference prices are manually checked; each record shows its source and date.</li><li>Local browser saves are not cloud accounts.</li></ul></div>
+    <div class="panel"><h3>About</h3><p>Collection Enterprises is an independent collecting game prototype. It is not affiliated with, sponsored by, or endorsed by Pokémon or TCGplayer.</p></div>
+  </section>
+</main>
+<footer>Collection Enterprises · Personal collecting game · Product and price data remain subject to their respective providers' terms.</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+'use strict';
+let PRODUCTS = [
+ {id:'base1-4',name:'Charizard',set:'Base Set',number:'4/102',category:'card',variant:'Holofoil',image:'https://images.pokemontcg.io/base1/4.png'},
+ {id:'base1-2',name:'Blastoise',set:'Base Set',number:'2/102',category:'card',variant:'Holofoil',image:'https://images.pokemontcg.io/base1/2.png'},
+ {id:'base1-15',name:'Venusaur',set:'Base Set',number:'15/102',category:'card',variant:'Holofoil',image:'https://images.pokemontcg.io/base1/15.png'},
+ {id:'base1-58',name:'Pikachu',set:'Base Set',number:'58/102',category:'card',variant:'Normal',image:'https://images.pokemontcg.io/base1/58.png'},
+ {id:'jungle-3',name:'Flareon',set:'Jungle',number:'3/64',category:'card',variant:'Holofoil',image:'https://images.pokemontcg.io/jungle/3.png'},
+ {id:'fossil-4',name:'Dragonite',set:'Fossil',number:'4/62',category:'card',variant:'Holofoil',image:'https://images.pokemontcg.io/fossil/4.png'},
+ {id:'teamrocket-1',name:'Dark Alakazam',set:'Team Rocket',number:'1/82',category:'card',variant:'Holofoil',image:'https://images.pokemontcg.io/teamrocket/1.png'},
+ {id:'sv3pt5-173',name:'Pikachu',set:'Scarlet & Violet—151',setAliases:['Scarlet & Violet 151','151'],number:'173/165',category:'card',variant:'Illustration Rare',image:'https://images.pokemontcg.io/sv3pt5/173.png'},
+ {id:'sv3pt5-199',name:'Charizard ex',set:'Scarlet & Violet—151',setAliases:['Scarlet & Violet 151','151'],number:'199/165',category:'card',variant:'Special Illustration Rare',image:'https://images.pokemontcg.io/sv3pt5/199.png'},
+ {id:'sealed-base-booster',name:'Base Set Booster Pack',set:'Vintage sealed product',category:'sealed',emoji:'📦'},
+ {id:'sealed-151-booster',name:'Scarlet & Violet—151 Booster Pack',set:'Scarlet & Violet—151',setAliases:['Scarlet & Violet 151','151'],category:'sealed',emoji:'🎴'},
+ {id:'sealed-paldea-booster',name:'Paldea Evolved Booster Pack',set:'Scarlet & Violet—Paldea Evolved',category:'sealed',emoji:'📦'},
+ {id:'accessory-sleeves',name:'Card Sleeves (100 ct.)',set:'Accessory',category:'accessory',emoji:'🛡️'},
+ {id:'accessory-binder',name:'9-Pocket Binder',set:'Accessory',category:'accessory',emoji:'📒'},
+ {id:'accessory-toploaders',name:'Toploaders (25 ct.)',set:'Accessory',category:'accessory',emoji:'🧊'}
+];
+const STORE_KEY='collectionEnterprises_v1';
+let state=loadState();
+if(Array.isArray(state.catalog)){for(const item of state.catalog){if(item&&(item.apiId||item.tmId)&&!PRODUCTS.some(p=>p.id===item.id))PRODUCTS.push(item);}}
+let apiSearchResults=[];
+let marketplaceLoaded=false;
+let tmSuccessfulRequests=0;
+const $=id=>document.getElementById(id);
+const fmt=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
+const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function blankState(){return {version:3,balance:1000,owned:{},orders:[],prices:{},priceHistory:{},catalog:[],createdAt:new Date().toISOString()};}
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORE_KEY));if(s&&typeof s.balance==='number'&&s.owned&&s.prices&&Array.isArray(s.orders))return {...blankState(),...s,priceHistory:s.priceHistory||{}};}catch(e){}return blankState();}
+function saveState(){try{state.catalog=PRODUCTS.filter(p=>p.apiId||p.tmId);localStorage.setItem(STORE_KEY,JSON.stringify(state));$('saveStatus').textContent='Saved in this browser just now.';}catch(e){toast('Could not save in browser storage. Export a backup.');}}
+function toast(message){const el=$('toast');el.textContent=message;el.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.style.display='none',2600);}
+function qty(id){return Math.max(0,Number(state.owned[id]||0));}
+function priceRecord(id){const p=state.prices[id];return p&&Number.isFinite(Number(p.price))?p:null;}
+function norm(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');}
+function numberPart(s){return String(s||'').split('/')[0].replace(/^0+/,'')||'0';}
+function categoryName(c){return c==='card'?'Pokémon card':c==='sealed'?'Sealed product':'Accessory';}
+function priceText(id){const p=priceRecord(id);return p?fmt(Number(p.price)):'Price unavailable';}
+function totalOwned(){return PRODUCTS.reduce((sum,p)=>sum+qty(p.id),0);}
+function collectionValue(){let value=0,has=false;for(const p of PRODUCTS){const r=priceRecord(p.id);if(r&&qty(p.id)){value+=Number(r.price)*qty(p.id);has=true;}}return has?value:null;}
+function safeImage(url){return /^https:\/\/images\.pokemontcg\.io\//i.test(url||'')||/^https:\/\/images\.tickermint_legacy\.com\//i.test(url||'')||/^https:\/\/assets\.tcgdex\.net\//i.test(url||'')?url:'';}
+function renderStats(){
+ $('balance').textContent=fmt(state.balance);$('statCash').textContent=fmt(state.balance);$('statItems').textContent=String(totalOwned());$('statOrders').textContent=String(state.orders.length);
+ const v=collectionValue();$('statValue').textContent=v===null?'—':fmt(v);
+}
+function art(p){
+ const src=safeImage(p.image);if(src)return `<img loading="lazy" src="${escapeHtml(src)}" alt="${escapeHtml(p.name)}" onerror="this.remove()">`;
+ return `<div class="art-placeholder" aria-hidden="true">${escapeHtml(p.emoji||(p.category==='card'?'🃏':p.category==='sealed'?'📦':'🛡️'))}</div>`;
+}
+function renderMarket(){
+ const q=$('search').value.trim().toLowerCase(),cat=$('category').value,sort=$('sort').value;
+ let arr=PRODUCTS.filter(p=>(cat==='all'||p.category===cat)&&(`${p.name} ${p.set} ${p.number||''}`.toLowerCase().includes(q)));
+ if(sort==='name')arr.sort((a,b)=>a.name.localeCompare(b.name));
+ if(sort==='priceAsc')arr.sort((a,b)=>(priceRecord(a.id)?.price??Infinity)-(priceRecord(b.id)?.price??Infinity));
+ if(sort==='priceDesc')arr.sort((a,b)=>(priceRecord(b.id)?.price??-1)-(priceRecord(a.id)?.price??-1));
+ if(sort==='owned')arr.sort((a,b)=>qty(b.id)-qty(a.id));
+ $('catalogCount').textContent=`${arr.length} products`;
+ $('catalog').innerHTML=arr.length?arr.map(p=>{
+  const pr=priceRecord(p.id),owned=qty(p.id),canBuy=pr&&Number(pr.price)>=0&&state.balance>=Number(pr.price);
+  const meta=pr?`${escapeHtml(pr.source||'Imported price')} · ${escapeHtml(pr.updated||'date not supplied')}`:'No verified market price yet'; const credit=pr&&pr.url?`<a class="tm-price-link" href="${escapeHtml(pr.url)}" target="_blank" rel="noopener">Prices: TickerMint ↗</a>`:'';
+  return `<article class="product"><div class="product-art"><span class="tag">${escapeHtml(categoryName(p.category))}</span>${art(p)}</div><div class="product-body"><h3>${escapeHtml(p.name)}</h3><div class="sub">${escapeHtml(p.set)}${p.number?' · '+escapeHtml(p.number):''}</div><div class="price-line"><span class="${pr?'price':'unpriced'}">${pr?fmt(Number(pr.price)):'Price unavailable'}</span><span class="sub">${owned} owned</span></div><div class="source">${meta} ${credit}</div><div class="product-actions"><button class="btn primary" ${canBuy?'':'disabled'} data-buy="${escapeHtml(p.id)}">Buy one</button><button class="btn" ${pr&&owned>0?'':'disabled'} data-sell="${escapeHtml(p.id)}">Sell one</button></div></div></article>`;
+ }).join(''):'<div class="empty">No products match that search.</div>';
+}
+function renderCollection(){
+ const owned=PRODUCTS.filter(p=>qty(p.id)>0),v=collectionValue();
+ $('collectionSummary').textContent=`${totalOwned()} item${totalOwned()===1?'':'s'} owned`;
+ $('collectionValueLabel').textContent=v===null?'Value unavailable':`Total ${fmt(v)}`;
+ if(!owned.length){$('collectionContent').innerHTML='<div class="empty">Your collection is empty. Browse the marketplace to get started.</div>';return;}
+ $('collectionContent').innerHTML='<div class="panel table-wrap"><table><thead><tr><th>Item</th><th>Quantity</th><th>Current price</th><th>Subtotal</th><th></th></tr></thead><tbody>'+owned.map(p=>{
+  const pr=priceRecord(p.id),sub=pr?fmt(Number(pr.price)*qty(p.id)):'—';
+  return `<tr><td><strong>${escapeHtml(p.name)}</strong><div class="muted tiny">${escapeHtml(p.set)}</div></td><td>${qty(p.id)}</td><td>${pr?fmt(Number(pr.price)):'Unavailable'}</td><td>${sub}</td><td><button class="btn" data-sell="${escapeHtml(p.id)}" ${pr?'':'disabled'}>Sell one</button></td></tr>`;
+ }).join('')+'</tbody></table></div>';
+}
+function renderOrders(){
+ if(!state.orders.length){$('ordersContent').innerHTML='<div class="empty">No orders yet. Completed purchases and sales will appear here.</div>';return;}
+ $('ordersContent').innerHTML='<div class="panel table-wrap"><table><thead><tr><th>Date</th><th>Action</th><th>Product</th><th>Quantity</th><th>Unit price</th><th>Total</th><th>Price source</th></tr></thead><tbody>'+state.orders.map(o=>`<tr><td>${escapeHtml(o.date)}</td><td><span class="status ${o.action==='Bought'?'warn':'good'}">${escapeHtml(o.action)}</span></td><td>${escapeHtml(o.name)}</td><td>${Number(o.quantity||1)}</td><td>${fmt(Number(o.price))}</td><td>${fmt(Number(o.price)*Number(o.quantity||1))}</td><td>${escapeHtml(o.source||'Unknown')}</td></tr>`).join('')+'</tbody></table></div>';
+}
+function renderPriceTable(){
+ const filter=$('tmPriceFilter')?.value||'all',q=($('priceSearch')?.value||'').trim().toLowerCase();
+ const rows=PRODUCTS.filter(p=>priceRecord(p.id)&&(filter==='all'||p.category===filter)&&(`${p.name} ${p.set} ${p.number||''}`.toLowerCase().includes(q)));
+ $('priceCount').textContent=`${rows.length} records`;
+ if(!rows.length){$('priceTable').innerHTML='<div class="empty">No matching verified prices yet. Search the catalog above or refresh tracked products.</div>';return;}
+ $('priceTable').innerHTML='<table><thead><tr><th>Product</th><th>Market price</th><th>Type</th><th>Source / updated</th></tr></thead><tbody>'+rows.map(p=>{
+  const r=priceRecord(p.id),link=r.url||p.tmUrl||'';
+  return `<tr><td><strong>${escapeHtml(p.name)}</strong><div class="muted tiny">${escapeHtml(p.set)}</div></td><td><strong>${fmt(Number(r.price))}</strong></td><td>${escapeHtml(categoryName(p.category))}</td><td>${escapeHtml(r.source||'—')}<div class="muted tiny">${escapeHtml(r.updated||'date not supplied')}</div>${link?`<a class="tm-price-link" href="${escapeHtml(link)}" target="_blank" rel="noopener">Prices: TickerMint ↗</a>`:''}</td></tr>`;
+ }).join('')+'</tbody></table>';
+}
+
+function tcgSearchUrl(p){
+ const q=[p.name,p.set,p.number||'',p.variant||''].filter(Boolean).join(' ');
+ return 'https://www.tcgplayer.com/search/pokemon/product?q='+encodeURIComponent(q)+'&view=grid';
+}
+function renderTcgLookup(){
+ const q=($('tcgReferenceSearch')?.value||'').trim().toLowerCase();
+ const items=PRODUCTS.filter(p=>`${p.name} ${p.set} ${p.number||''} ${p.variant||''}`.toLowerCase().includes(q));
+ $('tcgLookupList').innerHTML=items.map(p=>{
+  const r=priceRecord(p.id);
+  return `<div class="lookup-row"><div><strong>${escapeHtml(p.name)}</strong><div class="lookup-meta">${escapeHtml(p.set)} ${p.number?'· '+escapeHtml(p.number):''} ${p.variant?'· '+escapeHtml(p.variant):''} · ${r?fmt(Number(r.price)):'Price unavailable'}</div></div><button class="btn" data-tcg-item="${escapeHtml(p.id)}">Look up / record</button></div>`;
+ }).join('')||'<div class="empty">No matching products.</div>';
+}
+function openTcgReference(id){
+ const p=PRODUCTS.find(x=>x.id===id);if(!p)return;
+ const url=tcgSearchUrl(p);
+ window.open(url,'_blank','noopener');
+ const current=priceRecord(id);
+ $('tcgPriceStatus').innerHTML=`<strong>${escapeHtml(p.name)}</strong> — TCGplayer search opened in a new tab. Verify the exact listing, then record its market price below.`;
+ $('tcgPriceStatus').innerHTML+=`<div class="lookup-editor">
+ <div><label for="manualPrice">Market price (USD)</label><input id="manualPrice" inputmode="decimal" placeholder="e.g. 24.99" value="${current?escapeHtml(current.price):''}"></div>
+ <div><label for="manualCondition">Condition / printing</label><input id="manualCondition" placeholder="e.g. Near Mint · Holofoil" value="${current?escapeHtml(current.condition||p.variant||''):escapeHtml(p.variant||'')}"></div>
+ <button class="btn primary" id="saveManualPrice" data-save-manual="${escapeHtml(id)}">Save reference</button>
+ </div>
+ <div class="lookup-meta">Source will be recorded as TCGplayer website (manually checked). Date: ${new Date().toLocaleDateString()}.</div>`;
+}
+function saveManualTcgPrice(id){
+ const p=PRODUCTS.find(x=>x.id===id),value=csvNum($('manualPrice')?.value);
+ if(!p||value===null){toast('Enter a valid price of $0 or more.');return;}
+ const condition=$('manualCondition')?.value.trim()||p.variant||'Not specified';
+ const now=new Date().toISOString();
+ const record={price:value,source:'TCGplayer website (manually checked)',updated:now,condition,variant:p.variant||''};
+ state.prices[id]=record;
+ state.priceHistory=state.priceHistory||{};
+ state.priceHistory[id]=state.priceHistory[id]||[];
+ state.priceHistory[id].unshift({...record,recordedAt:now});
+ if(state.priceHistory[id].length>100)state.priceHistory[id].length=100;
+ saveState();render();
+ $('tcgPriceStatus').textContent=`Saved ${p.name} at ${fmt(value)} from your TCGplayer website check.`;
+ toast('TCGplayer reference price saved.');
+}
+
+function render(){renderStats();if(marketplaceLoaded)renderMarket();renderCollection();renderOrders();renderPriceTable();renderPriceDashboard();}
+function order(action,p,r){state.orders.unshift({date:new Date().toLocaleString(),action,name:p.name,set:p.set,productId:p.id,quantity:1,price:Number(r.price),source:r.source||'Imported price'});if(state.orders.length>500)state.orders.length=500;}
+function buy(id){const p=PRODUCTS.find(x=>x.id===id),r=priceRecord(id);if(!p||!r)return toast('No verified price is available for this product.');const cost=Number(r.price);if(!Number.isFinite(cost)||cost<0)return toast('This price record is invalid.');if(state.balance<cost)return toast('Not enough balance for this purchase.');state.balance=Math.round((state.balance-cost)*100)/100;state.owned[id]=qty(id)+1;order('Bought',p,r);saveState();render();toast(`Purchased ${p.name} for ${fmt(cost)}.`);}
+function sell(id){const p=PRODUCTS.find(x=>x.id===id),r=priceRecord(id);if(!p||!r||qty(id)<1)return toast('You do not have this item or its price is unavailable.');const proceeds=Number(r.price);state.owned[id]=qty(id)-1;state.balance=Math.round((state.balance+proceeds)*100)/100;order('Sold',p,r);saveState();render();toast(`Sold ${p.name} for ${fmt(proceeds)}.`);}
+function parseCSV(text){
+ const lines=[];let row=[],cell='',quoted=false;
+ for(let i=0;i<text.length;i++){const c=text[i],n=text[i+1];if(c==='"'&&quoted&&n==='"'){cell+='"';i++;}else if(c==='"'){quoted=!quoted;}else if(c===','&&!quoted){row.push(cell);cell='';}else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&n==='\n')i++;row.push(cell);if(row.some(v=>v.trim()!==''))lines.push(row);row=[];cell='';}else cell+=c;}
+ row.push(cell);if(row.some(v=>v.trim()!==''))lines.push(row);
+ if(!lines.length)return [];
+ const headers=lines.shift().map(h=>h.trim().replace(/^\uFEFF/,''));
+ return lines.map(cells=>Object.fromEntries(headers.map((h,i)=>[h,(cells[i]||'').trim()])));
+}
+function csvNum(v){if(v==null||String(v).trim()==='')return null;const n=Number(String(v).replace(/[$,]/g,''));return Number.isFinite(n)&&n>=0?n:null;}
+function importCSV(file){
+ if(!file)return toast('Choose a CSV file first.');
+ const reader=new FileReader();reader.onload=()=>{
+  try{const rows=parseCSV(String(reader.result||''));let count=0,miss=0;
+   for(const row of rows){let p=row.id?PRODUCTS.find(x=>x.id===row.id.trim()):null;
+    if(!p&&row.name){const matches=PRODUCTS.filter(x=>norm(x.name)===norm(row.name)&&(!row.set||norm(x.set)===norm(row.set)||((x.setAliases||[]).some(a=>norm(a)===norm(row.set)))));if(matches.length===1)p=matches[0];}
+    const v=csvNum(row.market||row.price);if(!p||v===null){miss++;continue;}
+    state.prices[p.id]={price:v,low:row.low||'',mid:row.mid||'',high:row.high||'',lastSale:row.lastSale||'',source:row.source||'CSV import',updated:row.updated||new Date().toISOString().slice(0,10),condition:row.condition||'',variant:row.variant||'',productId:row.productId||''};count++;
+   }
+   saveState();render();$('importStatus').textContent=`Imported ${count} price record(s). ${miss} row(s) were skipped because the product did not match exactly or the price was missing/invalid.`;
+  }catch(e){$('importStatus').textContent='Could not read this CSV. Check the headers and file format.';}
+ };reader.readAsText(file);
+}
+function downloadFile(content,name,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function exportPrices(){const cols=['id','name','set','category','price','low','mid','high','lastSale','source','updated','condition','variant','productId'];const lines=[cols.join(',')];for(const p of PRODUCTS){const r=priceRecord(p.id);if(!r)continue;const vals=[p.id,p.name,p.set,p.category,r.price,r.low,r.mid,r.high,r.lastSale,r.source,r.updated,r.condition,r.variant,r.productId];lines.push(vals.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(','));}downloadFile(lines.join('\r\n'),'collection-enterprises-prices.csv','text/csv');}
+function exportSave(){downloadFile(JSON.stringify(state,null,2),'collection-enterprises-save.json','application/json');$('saveStatus').textContent='Save backup exported. Keep the JSON file somewhere safe.';}
+function importSave(file){if(!file)return;const r=new FileReader();r.onload=()=>{try{const s=JSON.parse(r.result);if(typeof s.balance!=='number'||!Number.isFinite(s.balance)||!s.owned||!s.prices||!Array.isArray(s.orders))throw new Error();state={...blankState(),...s};if(Array.isArray(state.catalog)){for(const item of state.catalog){if(item&&(item.apiId||item.tmId)&&!PRODUCTS.some(p=>p.id===item.id))PRODUCTS.push(item);}}saveState();render();$('saveStatus').textContent='Game save imported successfully.';toast('Your game save was restored.');}catch(e){toast('That save file is not valid.');}};r.readAsText(file);}
+function resetGame(){if(!confirm('Reset your balance, collection, orders, and imported prices to a new $1,000 game? Export a backup first if you need one.'))return;state=blankState();saveState();render();$('saveStatus').textContent='A new game has started.';toast('New game started with $1,000.');}
+function tmApiUrl(path){return '/api/tickermint/'+path;}
+async function tmGet(path){
+ let response;
+ try{response=await fetch(tmApiUrl(path),{headers:{'Accept':'application/json'}});}
+ catch(err){throw new Error('Cannot reach the Collection Enterprises price server. Open the hosted game or start the included Node.js server, then try again.');}
+ if(!response.ok){
+  let detail='';try{const body=await response.json();detail=body.detail||body.message||body.error||'';}catch(e){}
+  if(response.status===429)throw new Error('TickerMint daily lookup limit reached. Wait for the quota reset or configure an authorized server-side key.');
+  if(response.status===401||response.status===403)throw new Error('TickerMint rejected the request. Check the server-side API key and account permissions.');
+  if(response.status===402)throw new Error('TickerMint requires a plan that permits this request.');
+  if(response.status===502||response.status===503)throw new Error('The price server could not reach TickerMint. Check the server host internet connection and try again.');
+  throw new Error(`Price server returned ${response.status}${detail?': '+detail:''}`);
+ }
+ const payload=await response.json();tmSuccessfulRequests++;return payload;
+}
+function tmUrlFor(item){
+ const direct=item?.tickermint_url||item?.page_url||'';
+ if(/^https:\/\/tickermint\.cards\//i.test(direct))return direct;
+ const id=item?.product_id||item?.id;
+ return id?'https://tickermint.cards/card/'+encodeURIComponent(String(id)):'https://tickermint.cards/';
+}
+function tmMarket(item){
+ const raw=item?.market??item?.market_price_usd??item?.market_price??null;
+ const n=Number(raw);return raw!==null&&raw!==''&&Number.isFinite(n)&&n>=0?n:null;
+}
+function storeTickerMintPrice(product,item){
+ const market=tmMarket(item);
+ if(market===null){const old=priceRecord(product.id);if(old&&String(old.source||'').includes('TickerMint'))delete state.prices[product.id];return false;}
+ const stamp=item.snapshot_date||item.date||item.updated_at||item.price_date||'Date not supplied';
+ product.tmId=String(item.product_id||item.id||product.tmId||'');
+ product.tmUrl=tmUrlFor(item);
+ const image=safeImage(item.image_url||item.image||'');if(image)product.image=image;
+ const record={price:market,source:'TickerMint · TCGplayer market',updated:String(stamp),condition:'Market',variant:item.printing||product.variant||'',productId:product.tmId,url:product.tmUrl};
+ state.prices[product.id]=record;
+ state.priceHistory=state.priceHistory||{};state.priceHistory[product.id]=state.priceHistory[product.id]||[];
+ const history=state.priceHistory[product.id],day=String(stamp).slice(0,10);
+ if(/^\d{4}-\d{2}-\d{2}$/.test(day)&&(!history.length||String(history[0].updated||'').slice(0,10)!==day||Number(history[0].price)!==market)){
+  history.unshift({...record});if(history.length>100)history.length=100;
+ }
+ return true;
+}
+function productSet(item){return item?.set_name||item?.set?.name||item?.set||item?.expansion||'';}
+function productNumber(item){return item?.number||item?.card_number||item?.collector_number||'';}
+function tmExactMatch(results,p){
+ const targetName=norm(p.name),targetNumber=numberPart(p.number||'');
+ const setNames=[p.set,...(Array.isArray(p.setAliases)?p.setAliases:[])].filter(Boolean).map(norm);
+ const rows=Array.isArray(results)?results:[];
+ let candidates=rows.filter(x=>norm(x.name)===targetName);
+ if(targetNumber!=='0')candidates=candidates.filter(x=>numberPart(productNumber(x))===targetNumber);
+ if(setNames.length)candidates=candidates.filter(x=>!productSet(x)||setNames.includes(norm(productSet(x))));
+ return candidates.length===1?candidates[0]:null;
+}
+async function updateTickerMintProduct(p){
+ if(p.category==='accessory')return false;
+ let item=null;
+ if(p.tmId){
+  item=await tmGet('products/'+encodeURIComponent(p.tmId));
+ }else{
+  const q=[p.name,p.set,p.number||''].filter(Boolean).join(' ');
+  const results=await tmGet('products/search?'+new URLSearchParams({q,game:'pokemon'}).toString());
+  item=tmExactMatch(results,p);
+ }
+ if(!item)return false;
+ if(!p.tmId&&item.product_id)p.tmId=String(item.product_id);
+ return storeTickerMintPrice(p,item);
+}
+async function syncTickerMintPrices(force=false){
+ const last=Number(localStorage.getItem('ce_tickermint_last_sync')||0);
+ if(!force&&last&&Date.now()-last<20*60*60*1000){
+  $('apiStatus').textContent='Prices were checked recently. Last check: '+new Date(last).toLocaleString()+'.';
+  $('tmConnection').textContent='TickerMint · Cached';renderPriceDashboard();return;
+ }
+ const items=PRODUCTS.filter(p=>p.category==='card'||p.category==='sealed');
+ let updated=0,missed=[],requestFailures=0;tmSuccessfulRequests=0;
+ $('syncBtn').disabled=true;$('apiStatus').textContent='Checking daily TickerMint market prices…';
+ try{
+  for(let i=0;i<items.length;i++){
+   const p=items[i];$('apiStatus').textContent=`Checking ${i+1} of ${items.length}: ${p.name}…`;
+   try{if(await updateTickerMintProduct(p))updated++;else missed.push(p.name+' (no exact catalog match or no market price)');}
+   catch(err){requestFailures++;if(String(err.message).includes('daily lookup limit'))throw err;missed.push(p.name+' ('+err.message+')');}
+  }
+  if(tmSuccessfulRequests>0&&requestFailures===0)localStorage.setItem('ce_tickermint_last_sync',String(Date.now()));
+  else localStorage.removeItem('ce_tickermint_last_sync');
+  saveState();render();
+  if(tmSuccessfulRequests>0){
+   $('apiStatus').textContent=`TickerMint responded successfully. ${updated} of ${items.length} tracked products have a usable market price.${requestFailures?` ${requestFailures} request(s) failed and will be retried.`:''}${missed.length?' Some products could not be matched or priced: '+missed.join('; '):''}`;
+   $('tmConnection').textContent=requestFailures?'TickerMint · Retry needed':(missed.length?'TickerMint · Connected (partial)':'TickerMint · Connected');
+  }else{
+   $('apiStatus').textContent='No successful TickerMint response was received. Check the server and internet connection; prices have not been confirmed.';
+   $('tmConnection').textContent='TickerMint · Check needed';
+  }
+ }catch(e){
+  $('apiStatus').textContent='Price update stopped: '+e.message+' Prices without a verified market value remain unavailable.';
+  $('tmConnection').textContent='TickerMint · Check needed';
+ }finally{$('syncBtn').disabled=false;renderPriceDashboard();}
+}
+function renderPriceDashboard(){
+ if(!$('tmTracked'))return;
+ const items=PRODUCTS.filter(p=>p.category==='card'||p.category==='sealed');
+ $('tmTracked').textContent=String(items.length);
+ $('tmPriced').textContent=String(items.filter(p=>priceRecord(p.id)).length);
+ const last=Number(localStorage.getItem('ce_tickermint_last_sync')||0);
+ $('tmLastRefresh').textContent=last?new Date(last).toLocaleDateString():'—';
+}
+function disconnectApi(){
+ for(const p of PRODUCTS){const r=priceRecord(p.id);if(r&&String(r.source||'').includes('TickerMint'))delete state.prices[p.id];}
+ localStorage.removeItem('ce_tickermint_last_sync');saveState();render();
+ $('apiStatus').textContent='Cleared cached TickerMint prices. Your collection and balance are unchanged.';
+ $('tmConnection').textContent='TickerMint · Cache cleared';
+}
+async function searchCatalog(){
+ const term=$('catalogSearch').value.trim();
+ if(term.length<2){$('catalogSearchStatus').textContent='Enter at least two letters to search.';return;}
+ $('catalogSearchBtn').disabled=true;$('catalogSearchStatus').textContent='Searching TickerMint catalog…';$('catalogSearchResults').innerHTML='';
+ try{
+  const result=await tmGet('products/search?'+new URLSearchParams({q:term,game:'pokemon'}).toString());
+  const rows=Array.isArray(result)?result:[];
+  const wantsCases=/\bcase(s)?\b/i.test(term);
+  apiSearchResults=rows.filter(item=>{
+   const name=String(item.name||'');
+   if(/^code\s*card\b/i.test(name))return false;
+   if(!wantsCases&&/\b(case|bulk case|display case)\b/i.test(name))return false;
+   return true;
+  });
+  $('catalogSearchStatus').textContent=`Showing ${apiSearchResults.length} usable result(s) from ${rows.length} matches. Code cards${wantsCases?'':' and cases'} are filtered out.`;
+  $('catalogSearchResults').innerHTML=apiSearchResults.map((item,i)=>{
+   const market=tmMarket(item),set=productSet(item)||'Set unavailable',number=productNumber(item);
+   return `<div class="tm-product-result"><div><strong>${escapeHtml(item.name||'Unnamed product')}</strong><div class="lookup-meta">${escapeHtml(set)}${number?' · #'+escapeHtml(number):''}${item.rarity?' · '+escapeHtml(item.rarity):''}</div></div><div style="text-align:right"><div class="tm-market-value">${market===null?'Price unavailable':fmt(market)}</div><button class="btn" data-add-tm-card="${i}">Add to marketplace</button></div></div>`;
+  }).join('')||'<div class="empty">No matching products were found.</div>';
+ }catch(e){
+  $('catalogSearchStatus').textContent='Catalog search failed: '+e.message+' Make sure you launched the game through the included server.';
+ }finally{$('catalogSearchBtn').disabled=false;}
+}
+function addTickerMintProduct(index){
+ const item=apiSearchResults[Number(index)];if(!item)return;
+ const id=String(item.product_id||item.id||'');if(!id){$('catalogSearchStatus').textContent='TickerMint did not return a product ID, so this item cannot be added safely.';return;}
+ const number=productNumber(item),set=productSet(item)||'Pokémon TCG';
+ const kind=String(item.kind||item.product_type||item.category||'').toLowerCase();
+ const category=(number||kind.includes('card')||String(item.card_id||'').length>0)?'card':'sealed';
+ const productId='tickermint-'+id;
+ let p=PRODUCTS.find(x=>x.id===productId);
+ if(!p){
+  p={id:productId,tmId:id,tmUrl:tmUrlFor(item),name:item.name||'Unknown product',set,number,category,variant:item.printing||'',image:safeImage(item.image_url||item.image||'')||'',emoji:category==='sealed'?'📦':'🃏'};
+  PRODUCTS.unshift(p);
+ }
+ if(storeTickerMintPrice(p,item)){
+  saveState();render();
+  $('catalogSearchStatus').textContent=`Added ${p.name} with verified TCGplayer market price ${fmt(state.prices[p.id].price)}.`;if(marketplaceLoaded)renderMarket();
+ }else{
+  saveState();render();
+  $('catalogSearchStatus').textContent=`Added ${p.name}, but TickerMint did not return a usable market price. Buying and selling stay disabled until a verified price is available.`;if(marketplaceLoaded)renderMarket();
+ }
+}
+function openPage(page){
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));
+ document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+page));
+ if(page==='market')loadMarketplace();
+}
+async function loadMarketplace(){
+ if(!marketplaceLoaded){marketplaceLoaded=true;$('marketLoading').textContent='Loading marketplace products and checking saved prices…';renderMarket();await syncTickerMintPrices(false);$('marketLoading').textContent=$('apiStatus').textContent||'Marketplace loaded.';}
+ else if(($('tmConnection').textContent||'').includes('Check needed')||($('tmConnection').textContent||'').includes('Retry needed')){renderMarket();$('marketLoading').textContent='Retrying the TickerMint connection…';await syncTickerMintPrices(true);$('marketLoading').textContent=$('apiStatus').textContent||'Marketplace loaded.';}
+ else{renderMarket();$('marketLoading').textContent='Marketplace loaded. Prices are daily market data; refresh in Price Center to check again.';}
+ $('marketLoading').style.display='block';
+}
+$('nav').addEventListener('click',e=>{const b=e.target.closest('button[data-page]');if(b)openPage(b.dataset.page);});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-open-page]');if(b)openPage(b.dataset.openPage);});
+$('enterMarketplaceBtn').addEventListener('click',()=>openPage('market'));
+$('catalog').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.buy)buy(b.dataset.buy);if(b.dataset.sell)sell(b.dataset.sell);});
+$('collectionContent').addEventListener('click',e=>{const b=e.target.closest('button[data-sell]');if(b)sell(b.dataset.sell);});
+$('search').addEventListener('input',renderMarket);$('category').addEventListener('change',renderMarket);$('sort').addEventListener('change',renderMarket);
+$('priceSearch').addEventListener('input',renderPriceTable);$('tmPriceFilter').addEventListener('change',renderPriceTable);$('tcgReferenceSearch').addEventListener('input',renderTcgLookup);
+$('syncBtn').addEventListener('click',()=>syncTickerMintPrices(true));
+async function testTickerMintConnection(){
+ const button=$('testConnectionBtn');button.disabled=true;$('apiStatus').textContent='Testing a live request to TickerMint through the price server…';
+ try{
+  const results=await tmGet('connection-test');
+  if(!Array.isArray(results))throw new Error('TickerMint returned an unexpected search response.');
+  const match=results.find(x=>String(x.name||'').toLowerCase().includes('charizard'))||results[0];
+  if(!match)throw new Error('TickerMint responded, but the test search returned no products.');
+  $('tmConnection').textContent='TickerMint · Connected';
+  $('apiStatus').textContent=`Live TickerMint connection verified. Test search returned ${results.length} result(s), including ${match.name||'a product'}. This confirms the server can reach TickerMint; tracked products still need their own price checks.`;
+ }catch(err){$('tmConnection').textContent='TickerMint · Check needed';$('apiStatus').textContent='Live connection test failed: '+err.message;}
+ finally{button.disabled=false;}
+}
+$('testConnectionBtn').addEventListener('click',testTickerMintConnection);
+$('disconnectBtn').addEventListener('click',disconnectApi);
+$('catalogSearchBtn').addEventListener('click',searchCatalog);
+$('catalogSearch').addEventListener('keydown',e=>{if(e.key==='Enter')searchCatalog();});
+$('catalogSearchResults').addEventListener('click',e=>{const b=e.target.closest('[data-add-tm-card]');if(b)addTickerMintProduct(b.dataset.addTmCard);});
+$('priceSearchClear').addEventListener('click',()=>{$('tcgReferenceSearch').value='';renderTcgLookup();});
+$('tcgLookupList').addEventListener('click',e=>{const b=e.target.closest('[data-tcg-item]');if(b)openTcgReference(b.dataset.tcgItem);});
+$('tcgPriceStatus').addEventListener('click',e=>{const b=e.target.closest('[data-save-manual]');if(b)saveManualTcgPrice(b.dataset.saveManual);});
+renderTcgLookup();
+$('importBtn').addEventListener('click',()=>importCSV($('csvFile').files[0]));
+$('exportPricesBtn').addEventListener('click',exportPrices);
+$('clearPricesBtn').addEventListener('click',()=>{if(confirm('Clear every imported market price? Your collection and balance will remain unchanged.')){state.prices={};saveState();render();$('importStatus').textContent='Price records cleared.';}});
+$('exportSaveBtn').addEventListener('click',exportSave);
+$('saveFile').addEventListener('change',e=>importSave(e.target.files[0]));
+$('resetBtn').addEventListener('click',resetGame);
+render();
+localStorage.removeItem('ce_pkmnprices_key');sessionStorage.removeItem('ce_pkmnprices_key');
+$('marketLoading').textContent='The marketplace has not loaded yet. Select Marketplace to enter the shop.';
+</script>
+</body>
+</html>

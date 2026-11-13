@@ -1,0 +1,11 @@
+{
+  "name": "collection-enterprises",
+  "version": "1.2.0",
+  "private": true,
+  "description": "Collection Enterprises Pokémon marketplace with a server-side TickerMint connection",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js"
+  }
+}
