@@ -1,0 +1,15 @@
+COLLECTION ENTERPRISES — NETLIFY DEPLOY
+
+This package adds a Netlify Function behind the game's existing /api/tickermint/ requests.
+
+1. Extract this ZIP on your tablet.
+2. Upload the extracted project files into the GitHub repository connected to your Netlify site. Preserve the netlify.toml file at the project root and the netlify/functions/tickermint.js folder path.
+3. Commit the changes. Netlify should deploy from that connected repository.
+4. If you have a TickerMint key and a plan that permits your intended use, add TICKERMINT_API_KEY in Netlify's private environment variables. Never put the key in index.html or share it publicly.
+5. Trigger a fresh deploy after changing environment variables.
+6. Open the site and run the Price Center connection test.
+
+IMPORTANT
+A plain Netlify Drop/static drag-and-drop upload may publish only the web files and fail to package serverless functions. Use a Git-connected Netlify deploy or a Netlify CLI/build deployment.
+This package has not been deployed to your Netlify account here. Test the connection after deployment.
+TickerMint prices are daily market snapshots, not guaranteed live listings or sale prices. Check current TickerMint terms: free access is personal/non-commercial; public/commercial use may require an eligible plan and attribution. Do not mirror/resell the provider's full catalog.
