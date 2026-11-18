@@ -1,0 +1,9 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/tickermint/*"
+  to = "/.netlify/functions/tickermint/:splat"
+  status = 200
+  force = true
