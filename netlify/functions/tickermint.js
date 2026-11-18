@@ -20,7 +20,10 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "GET") return send(405, { error: "GET only." }, { Allow: "GET" });
 
   const marker = "/.netlify/functions/tickermint";
-  const path = String(event.path || "").split(marker).pop().replace(/^\/+/, "");
+const path = String(event.path || "")
+  .replace(/^\/api\/tickermint\/?/, "")
+  .replace(/^\/\.netlify\/functions\/tickermint\/?/, "")
+  .replace(/^\/+/, "");
   const isSearch = path === "products/search";
   const isDetail = /^products\/[0-9]+$/.test(path);
   const isTest = path === "connection-test";
